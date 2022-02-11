@@ -100,8 +100,8 @@ index 664c527..ac8e4ec 100644
 -	selmon->showbar = !selmon->showbar;
 +	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->showbar;
  	updatebarpos(selmon);
- 	resizebarwin(selmon);
- 	if (showsystray) {
+ 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
+ 	arrange(selmon);
 @@ -1741,9 +1767,33 @@ void
  toggleview(const Arg *arg)
  {

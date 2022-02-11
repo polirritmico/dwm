@@ -1,42 +1,25 @@
-From 60bb3dfaf91227eb02e828d74e6f4758b2c56542 Mon Sep 17 00:00:00 2001
-From: cultab <rroarck@gmail.com>
-Date: Fri, 8 May 2020 13:56:08 +0300
-Subject: [PATCH] fix status2d to work after ed3ab6
-
-ed3ab6 changed the name of the variable sw to tw, now the patch won't apply nor work.
-This patch updates the variable name to the new one.
----
- dwm.c | 120 +++++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 114 insertions(+), 6 deletions(-)
-
 diff --git a/dwm.c b/dwm.c
-index 9fd0286..71e18be 100644
+index d27cb67..464c9d6 100644
 --- a/dwm.c
 +++ b/dwm.c
-@@ -163,5 +163,6 @@ static void detachstack(Client *c);
+@@ -163,5 +163,6 @@ static void detach(Client *c);
  static Monitor *dirtomon(int dir);
  static void drawbar(Monitor *m);
  static void drawbars(void);
 +static int drawstatusbar(Monitor *m, int bh, char* text);
  static void expose(XEvent *e);
  static void focus(Client *c);
-@@ -237,8 +238,8 @@ static void zoom(const Arg *arg);
+@@ -237,7 +238,7 @@ static void zoom(const Arg *arg);
  
  /* variables */
- static Systray *systray = NULL;
  static const char broken[] = "broken";
 -static char stext[256];
 +static char stext[1024];
  static int screen;
  static int sw, sh;           /* X display screen geometry width, height */
  static int bh, blw = 0;      /* bar geometry */
-@@ -480,12 +481,12 @@ cleanup(void)
- 	if (showsystray) {
- 		XUnmapWindow(dpy, systray->win);
- 		XDestroyWindow(dpy, systray->win);
- 		free(systray);
- 	}
- 
+@@ -483,7 +484,7 @@ cleanup(void)
+ 		cleanupmon(mons);
  	for (i = 0; i < CurLast; i++)
  		drw_cur_free(drw, cursor[i]);
 -	for (i = 0; i < LENGTH(colors); i++)
@@ -44,7 +27,7 @@ index 9fd0286..71e18be 100644
  		free(scheme[i]);
  	XDestroyWindow(dpy, wmcheckwin);
  	drw_free(drw);
-@@ -693,6 +694,114 @@ dirtomon(int dir)
+@@ -690,6 +691,114 @@ dirtomon(int dir)
  	return m;
  }
  
@@ -159,18 +142,18 @@ index 9fd0286..71e18be 100644
  void
  drawbar(Monitor *m)
  {
-@@ -704,9 +813,7 @@ drawbar(Monitor *m)
+@@ -701,9 +810,7 @@ drawbar(Monitor *m)
  
  	/* draw status first so it can be overdrawn by tags later */
  	if (m == selmon) { /* status is only drawn on selected monitor */
 -		drw_setscheme(drw, scheme[SchemeNorm]);
--		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px extra right padding */
--		drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
+-		sw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
+-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
 +		tw = m->ww - drawstatusbar(m, bh, stext);
  	}
  
- 	resizebarwin(m);
-@@ -1568,7 +1675,8 @@ setup(void)
+ 	for (c = m->clients; c; c = c->next) {
+@@ -1572,7 +1679,8 @@ setup(void)
  	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
  	cursor[CurMove] = drw_cur_create(drw, XC_fleur);
  	/* init appearance */
@@ -179,7 +162,4 @@ index 9fd0286..71e18be 100644
 +	scheme[LENGTH(colors)] = drw_scm_create(drw, colors[0], 3);
  	for (i = 0; i < LENGTH(colors); i++)
  		scheme[i] = drw_scm_create(drw, colors[i], 3);
- 	/* init system tray */
--- 
-2.26.2
-
+ 	/* init bars */
