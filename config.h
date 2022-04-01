@@ -71,6 +71,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[] = { "thunar", NULL };
+static const char *ayuda[] = { "/usr/local/bin/ayuda", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -112,6 +113,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|Mod1Mask,              XK_i,      spawn,          {.v = browser } },
     { MODKEY,                       XK_space,  spawn,          {.v = files } },
+    { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = ayuda } },
 };
 
 /* button definitions */
