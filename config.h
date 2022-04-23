@@ -69,6 +69,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[] = { "thunar", NULL };
+static const char *changebg[] = { "/usr/bin/feh", "--randomize", "--bg-fill", "~/Utilidades/Wallpapers/*", NULL };
 static const char *ayuda[] = { "/usr/local/bin/ayuda", NULL };
 
 static Key keys[] = {
@@ -110,6 +111,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_6,                      5)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|Mod1Mask,              XK_i,      spawn,          {.v = browser } },
+	{ MODKEY|Mod1Mask,              XK_b,      spawn,          {.v = changebg } },
     { MODKEY,                       XK_space,  spawn,          {.v = files } },
     { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = ayuda } },
 };
