@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+/* DWM config.h */
 /* Compile with: # make clean install */
 // For multimedia keys
 #include <X11/XF86keysym.h>
@@ -69,7 +70,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[] = { "thunar", NULL };
-static const char *changebg[] = { "/usr/bin/feh", "--randomize", "--bg-fill", "~/Utilidades/Wallpapers/*", NULL };
+static const char *changebg[] = { "/usr/bin/feh", "--randomize", "--bg-fill", \
+                                  "/home/eduardo/Utilidades/Wallpapers/*", NULL };
 static const char *ayuda[] = { "/usr/local/bin/ayuda", NULL };
 
 static Key keys[] = {
@@ -91,7 +93,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_x,      killclient,     {0} },
-	{ MODKEY,                       XK_h,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_n,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
