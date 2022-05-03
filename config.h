@@ -56,31 +56,41 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY,                       KEY,    view,          {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,    toggleview,    {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,    tag,           {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask, KEY,    toggletag,     {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gray1, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "urxvt", NULL };
-static const char *browser[] = { "firefox", NULL };
-static const char *files[] = { "thunar", NULL };
-static const char *changebg[] = { "/usr/bin/feh", "--randomize", "--bg-fill", \
-                                  "/home/eduardo/Utilidades/Wallpapers/*", NULL };
-static const char *ayuda[] = { "/usr/local/bin/ayuda", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn",
+                                   dmenufont, "-nb", col_gray1, "-nf",
+                                   col_gray3, "-sb", col_gray1, "-sf",
+                                   col_gray4, NULL };
 
+static const char *termcmd[]  = { "urxvt", NULL };
+static const char *browser[]  = { "firefox", NULL };
+
+static const char *files[]    = { "/usr/bin/urxvt", "-e", "bash", "-c",
+                                  "/usr/local/bin/nnn -e /home/eduardo/", 
+                                  NULL };
+static const char *editor[]   = { "/usr/bin/urxvt", "-e", "bash", "-c",
+                                  "/usr/bin/nvim", NULL };
+static const char *changebg[] = { "feh", "--randomize", "--bg-fill",
+                                  "/home/eduardo/Utilidades/Wallpapers/", "*",
+                                  NULL };
+static const char *ayuda[]    = { "/usr/bin/urxvt", "-e", "bash", "-c",
+                                  "/usr/bin/nvim /home/eduardo/Utilidades/comandos.md", 
+                                  NULL };
+
+/* keymaps */
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ ControlMask,                  XK_space,  spawn,          {.v = dmenucmd } },
 	{ Mod1Mask,                     XK_space,  spawn,          {.v = termcmd } },
-	{ 0,                    XF86XK_AudioMute,  spawn,          SHCMD("pamixer -t; kill -41 $(pidof dwmblocks)") },
-	{ 0,             XF86XK_AudioRaiseVolume,  spawn,         SHCMD("pamixer -i 3; kill -41 $(pidof dwmblocks)") },
-	{ 0,             XF86XK_AudioLowerVolume,  spawn,         SHCMD("pamixer -d 3; kill -41 $(pidof dwmblocks)") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -114,8 +124,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|Mod1Mask,              XK_i,      spawn,          {.v = browser } },
 	{ MODKEY|Mod1Mask,              XK_b,      spawn,          {.v = changebg } },
-    { MODKEY,                       XK_space,  spawn,          {.v = files } },
     { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = ayuda } },
+    { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = editor } },
+    { MODKEY,                       XK_space,  spawn,          {.v = files } },
+
+	{ 0, XF86XK_AudioMute,  spawn,
+      SHCMD("pamixer -t; kill -41 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioRaiseVolume, spawn,
+      SHCMD("pamixer -i 3; kill -41 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioLowerVolume, spawn,
+      SHCMD("pamixer -d 3; kill -41 $(pidof dwmblocks)") },
 };
 
 /* button definitions */
