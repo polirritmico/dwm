@@ -125,7 +125,7 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_i,      spawn,          {.v = browser } },
 	{ MODKEY|Mod1Mask,              XK_b,      spawn,          {.v = changebg } },
     { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = ayuda } },
-    { MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = editor } },
+    { MODKEY|Mod1Mask,              XK_e,      spawn,          {.v = editor } },
     { MODKEY,                       XK_space,  spawn,          {.v = files } },
 
 	{ 0, XF86XK_AudioMute,  spawn,
@@ -137,7 +137,8 @@ static Key keys[] = {
 };
 
 /* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText,
+ * ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
